@@ -1,117 +1,11 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Subskrypcja Niczego™ — Najuczciwsza subskrypcja</title>
-  <meta name="description" content="Płacisz. Nic nie dostajesz. I o to chodzi. Subskrypcja Niczego™" />
-  <style>
-    :root{
-      --bg:#0b0c10;
-      --card:#12131a;
-      --text:#e9e9ef;
-      --muted:#a7a7b3;
-      --line:rgba(255,255,255,.12);
-      --accent:#7c5cff;
-      --accent2:#1dd3b0;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 15% 10%, rgba(124,92,255,.25), transparent 55%),
-        radial-gradient(900px 600px at 85% 20%, rgba(29,211,176,.18), transparent 55%),
-        radial-gradient(900px 700px at 40% 90%, rgba(124,92,255,.10), transparent 55%),
-        var(--bg);
-    }
-    a{color:inherit}
-    .wrap{max-width:1080px;margin:0 auto;padding:28px 18px 80px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .logo{
-      display:flex;align-items:center;gap:10px;
-      font-weight:800;letter-spacing:.2px
-    }
-    .dot{
-      width:14px;height:14px;border-radius:50%;
-      background: linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow: 0 0 0 6px rgba(124,92,255,.12);
-    }
-    nav{display:flex;gap:14px;flex-wrap:wrap}
-    nav a{opacity:.82;text-decoration:none;border-bottom:1px dashed transparent}
-    nav a:hover{opacity:1;border-bottom-color:rgba(255,255,255,.35)}
-    .hero{margin-top:46px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:start}
-    @media (max-width:900px){ .hero{grid-template-columns:1fr} }
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 12px;border:1px solid var(--line);border-radius:999px;
-      color:var(--muted);background:rgba(255,255,255,.02)
-    }
-    h1{font-size:46px;line-height:1.05;margin:16px 0 10px}
-    @media (max-width:520px){ h1{font-size:36px} }
-    .lead{font-size:18px;line-height:1.55;color:var(--muted);max-width:60ch}
-    .ctaRow{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:10px;
-      padding:12px 16px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(255,255,255,.03); text-decoration:none;
-      box-shadow: none; transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      font-weight:700
-    }
-    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,.05); border-color: rgba(255,255,255,.22)}
-    .btn.primary{
-      border-color: transparent;
-      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(29,211,176,.85));
-      color:#0b0c10;
-    }
-    .btn.primary:hover{filter:brightness(1.03)}
-    .card{
-      background: rgba(18,19,26,.72);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:18px;
-      backdrop-filter: blur(10px);
-    }
-    .heroCard h3{margin:0 0 10px;font-size:16px;color:var(--muted);font-weight:700}
-    .checklist{margin:0;padding-left:18px;color:var(--text)}
-    .checklist li{margin:8px 0}
-    .muted{color:var(--muted)}
-    section{margin-top:44px}
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media (max-width:900px){ .grid3{grid-template-columns:1fr} }
-    .price{font-size:28px;font-weight:900;margin:6px 0 4px}
-    .tag{
-      display:inline-flex;align-items:center;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      color:var(--muted);
-      background:rgba(255,255,255,.02);
-      font-size:12px;font-weight:700
-    }
-    .tierTitle{display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .tierTitle h3{margin:0;font-size:18px}
-    .features{margin:12px 0 0;padding-left:18px;color:var(--muted)}
-    .features li{margin:8px 0}
-    .fine{font-size:12px;color:rgba(233,233,239,.68);line-height:1.5}
-    details{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.02)}
-    details + details{margin-top:10px}
-    summary{cursor:pointer;font-weight:800}
-    .footer{
-      margin-top:54px;padding-top:18px;border-top:1px solid var(--line);
-      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
-    }
-    .kpi{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
-    }
-    .kpi .pill{font-size:13px}
-    .tinyLink{color:var(--muted);text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.25)}
-    .tinyLink:hover{color:var(--text)}
-    .noteBox{margin-top:14px;border:1px dashed rgba(255,255,255,.18);border-radius:14px;padding:12px;color:var(--muted)}
-  </style>
+  <title>Subscription to Nothing™ — The Most Honest Subscription</title>
+  <meta name="description" content="You pay. You get nothing. And that’s the point. Subscription to Nothing™" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
@@ -119,11 +13,11 @@
     <header>
       <div class="logo">
         <span class="dot" aria-hidden="true"></span>
-        <span>Subskrypcja Niczego™</span>
+        <span>Subscription to Nothing™</span>
       </div>
       <nav>
-        <a href="#jakto">Jak to działa</a>
-        <a href="#cennik">Cennik</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
       </nav>
     </header>
@@ -131,122 +25,122 @@
     <main>
       <div class="hero">
         <div>
-          <h1>Płacisz. Nic nie dostajesz.<br/>I o to chodzi.</h1>
+          <h1>You pay. You get nothing.<br/>And that’s the point.</h1>
           <p class="lead">
-            W świecie, w którym wszystko próbuje Cię „zaangażować”, my robimy odważny krok w drugą stronę:
-            <strong>oferujemy brak - </strong>. Brak presji. Bez powiadomień. Bez „roadmapy”.
+            In a world where everything tries to “engage” you, we take a bold step in the opposite direction:
+            <strong>we offer absence</strong>. No pressure. No notifications. No “roadmap”.
           </p>
 
           <div class="ctaRow">
-            <!-- Podmień # na link do płatności (Stripe/PayPal) -->
-            <a class="btn primary" href="#cennik">Chcę nic</a>
-            <a class="btn" href="#jakto">Zobacz, czego nie ma</a>
+            <!-- Replace # with your payment link (Stripe/PayPal) -->
+            <a class="btn primary" href="#pricing">I want nothing</a>
+            <a class="btn" href="#how">See what’s not included</a>
           </div>
 
           <div class="kpi">
-            <span class="pill">📦 Dostawa: natychmiastowa</span>
-            <span class="pill">🔁 Aktualizacje: nigdy</span>
-            <span class="pill">🧘 Efekt uboczny: spokój</span>
+            <span class="pill">📦 Delivery: instant</span>
+            <span class="pill">🔁 Updates: never</span>
+            <span class="pill">🧘 Side effect: calm</span>
           </div>
 
           <div class="noteBox">
-            <strong>Uwaga:</strong> To nie jest kurs, aplikacja ani społeczność. To jest subskrypcja.
-            Jej główną funkcją jest brak funkcji.
+            <strong>Note:</strong> This is not a course, an app, or a community. It’s a subscription.
+            Its main function is having no functions.
           </div>
         </div>
 
         <div class="card heroCard">
-          <h3>Co dostajesz w środku?</h3>
+          <h3>What do you get?</h3>
           <ul class="checklist">
-            <li><strong>E-mail powitalny</strong> z potwierdzeniem, że… to wszystko.</li>
-            <li><strong>Miesięczny reminder</strong> przypominający, że nadal nic się nie wydarzyło.</li>
-            <li><strong>Święty spokój</strong> (w wersji cyfrowej).</li>
+            <li><strong>A welcome email</strong> confirming that… that’s it.</li>
+            <li><strong>A monthly reminder</strong> that nothing has happened.</li>
+            <li><strong>Peace of mind</strong> (digital edition).</li>
           </ul>
           <p class="fine muted" style="margin-top:12px">
-            Brzmi jak żart? Tak. Ale działa zaskakująco dobrze jako manifest albo ironiczny „detoks od treści”.
+            Sounds like a joke? Yes. But it works surprisingly well as a statement or an ironic “content detox”.
           </p>
         </div>
       </div>
 
-      <section id="jakto">
-        <h2 style="margin:0 0 12px;font-size:26px">Jak to działa</h2>
+      <section id="how">
+        <h2 style="margin:0 0 12px;font-size:26px">How it works</h2>
         <div class="grid3">
           <div class="card">
-            <span class="tag">Krok 1</span>
-            <h3 style="margin:10px 0 6px">Wybierasz plan</h3>
+            <span class="tag">Step 1</span>
+            <h3 style="margin:10px 0 6px">Pick a plan</h3>
             <p class="muted" style="margin:0;line-height:1.6">
-              Basic, Premium albo Founder. Różnią się tym, jak bardzo chcesz podkreślić swój związek z niczym.
+              Basic, Premium, or Founder. The difference is how loudly you want to highlight your relationship with nothing.
             </p>
           </div>
           <div class="card">
-            <span class="tag">Krok 2</span>
-            <h3 style="margin:10px 0 6px">Płacisz</h3>
+            <span class="tag">Step 2</span>
+            <h3 style="margin:10px 0 6px">Pay</h3>
             <p class="muted" style="margin:0;line-height:1.6">
-              Transakcja przebiega normalnie. To jedyny „feature”, który działa w 100%.
+              The transaction works normally. It’s the only “feature” that works at 100%.
             </p>
           </div>
           <div class="card">
-            <span class="tag">Krok 3</span>
-            <h3 style="margin:10px 0 6px">Dostajesz brak</h3>
+            <span class="tag">Step 3</span>
+            <h3 style="margin:10px 0 6px">Receive absence</h3>
             <p class="muted" style="margin:0;line-height:1.6">
-              Otrzymujesz potwierdzenie i cykliczne przypomnienie, że nic się nie zmieniło. Stabilność.
+              You receive confirmation and recurring reminders that nothing changed. Stability.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="cennik">
-        <h2 style="margin:0 0 12px;font-size:26px">Cennik</h2>
+      <section id="pricing">
+        <h2 style="margin:0 0 12px;font-size:26px">Pricing</h2>
         <div class="grid3">
           <div class="card">
             <div class="tierTitle">
               <h3>Nothing Basic</h3>
-              <span class="tag">Najpopularniejsze</span>
+              <span class="tag">Most popular</span>
             </div>
-            <div class="price">4 zł <span class="muted" style="font-size:14px;font-weight:700">/ mies.</span></div>
+            <div class="price">4 zł <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span></div>
             <ul class="features">
-              <li>E-mail powitalny</li>
-              <li>Miesięczne „nadal nic”</li>
-              <li>Satysfakcja z minimalizmu</li>
+              <li>Welcome email</li>
+              <li>Monthly “still nothing”</li>
+              <li>Minimalism satisfaction</li>
             </ul>
             <div class="ctaRow" style="margin-top:14px">
-              <a class="btn primary" href="#">Wybieram Basic</a>
+              <a class="btn primary" href="#">Choose Basic</a>
             </div>
-            <p class="fine" style="margin-top:10px">Dla ludzi, którzy chcą mniej, ale konsekwentnie.</p>
+            <p class="fine" style="margin-top:10px">For people who want less — consistently.</p>
           </div>
 
           <div class="card" style="border-color: rgba(124,92,255,.35)">
             <div class="tierTitle">
               <h3>Nothing Premium</h3>
-              <span class="tag">Więcej niczego</span>
+              <span class="tag">More nothing</span>
             </div>
-            <div class="price">9 zł <span class="muted" style="font-size:14px;font-weight:700">/ mies.</span></div>
+            <div class="price">9 zł <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span></div>
             <ul class="features">
-              <li>Wszystko z Basic</li>
-              <li>To samo, tylko drożej</li>
-              <li>Lepszy efekt „to prezent”</li>
+              <li>Everything from Basic</li>
+              <li>The same thing, just pricier</li>
+              <li>Better “this is a gift” energy</li>
             </ul>
             <div class="ctaRow" style="margin-top:14px">
-              <a class="btn primary" href="#">Wybieram Premium</a>
+              <a class="btn primary" href="#">Choose Premium</a>
             </div>
-            <p class="fine" style="margin-top:10px">Dla tych, którzy lubią premium… nawet jeśli nie istnieje.</p>
+            <p class="fine" style="margin-top:10px">For those who like premium… even if it doesn’t exist.</p>
           </div>
 
           <div class="card">
             <div class="tierTitle">
               <h3>Founder of Nothing</h3>
-              <span class="tag">Jednorazowo</span>
+              <span class="tag">One-time</span>
             </div>
-            <div class="price">28 zł <span class="muted" style="font-size:14px;font-weight:700">raz</span></div>
+            <div class="price">28 zł <span class="muted" style="font-size:14px;font-weight:700">once</span></div>
             <ul class="features">
-              <li>Certyfikat PDF: „Założyciel Niczego”</li>
-              <li>Numerowany wpis (opcjonalnie)</li>
-              <li>Najwyższy poziom ironii</li>
+              <li>PDF certificate: “Founder of Nothing”</li>
+              <li>Numbered entry (optional)</li>
+              <li>Maximum irony level</li>
             </ul>
             <div class="ctaRow" style="margin-top:14px">
-              <a class="btn primary" href="#">Zostaję Founderem</a>
+              <a class="btn primary" href="#">Become a Founder</a>
             </div>
-            <p class="fine" style="margin-top:10px">Dla kolekcjonerów memów i ludzi, którzy lubią mieć dowód.</p>
+            <p class="fine" style="margin-top:10px">For meme collectors and people who like proof.</p>
           </div>
         </div>
       </section>
@@ -255,48 +149,48 @@
         <h2 style="margin:0 0 12px;font-size:26px">FAQ</h2>
 
         <details>
-          <summary>Czy naprawdę nic nie dostanę?</summary>
+          <summary>Will I really get nothing?</summary>
           <div class="muted" style="margin-top:8px;line-height:1.7">
-            Tak. Dostajesz tylko potwierdzenie i okresowe przypomnienia, że nadal nic nie dostajesz.
-            To jest główna cecha produktu.
+            Yes. You only get confirmation and occasional reminders that you’re still getting nothing.
+            That’s the core feature.
           </div>
         </details>
 
         <details>
-          <summary>Czy planujecie dodać funkcje?</summary>
+          <summary>Are you going to add features?</summary>
           <div class="muted" style="margin-top:8px;line-height:1.7">
-            Nie. To byłoby sprzeczne z misją. Stabilność to nasza „innowacja”.
+            No. That would contradict the mission. Stability is our “innovation”.
           </div>
         </details>
 
         <details>
-          <summary>Czy mogę anulować subskrypcję?</summary>
+          <summary>Can I cancel?</summary>
           <div class="muted" style="margin-top:8px;line-height:1.7">
-            Oczywiście. Anulowanie nie zmienia niczego w samym „niczym”, ale zmienia obciążenie karty. Uczciwie.
+            Absolutely. Cancelling doesn’t change anything about the “nothing”, but it changes your card statement. Fair.
           </div>
         </details>
 
         <details>
-          <summary>Czy to jest legalne?</summary>
+          <summary>Is this legal?</summary>
           <div class="muted" style="margin-top:8px;line-height:1.7">
-            Tak Wszystko zależy od komunikacji. Tu komunikacja jest prosta: płacisz za usługę polegającą na braku świadczenia,
-            a my to jasno opisujemy. Bez obietnic, bez ukrytych warunków.
+            Yes — it all depends on communication. Here it’s simple: you pay for a service defined by the absence of deliverables,
+            and we state that clearly. No promises, no hidden conditions.
           </div>
         </details>
       </section>
 
       <div class="footer">
         <div class="muted">
-          <strong>Subskrypcja Niczego™</strong><br/>
-          <span class="fine">Najmniej angażujący produkt w Twoim życiu.</span>
+          <strong>Subscription to Nothing™</strong><br/>
+          <span class="fine">The least demanding product in your life.</span>
         </div>
         <div class="muted">
-          <a class="tinyLink" href="#">Polityka prywatności</a> ·
-          <a class="tinyLink" href="#">Regulamin</a> ·
-          <a class="tinyLink" href="mailto:hello@subskrypcjaniczego.pl">Kontakt</a>
+          <a class="tinyLink" href="#">Privacy Policy</a> ·
+          <a class="tinyLink" href="#">Terms</a> ·
+          <a class="tinyLink" href="mailto:hello@subscriptiontonothing.com">Contact</a>
         </div>
       </div>
     </main>
   </div>
 </body>
-        </html>
+</html>
