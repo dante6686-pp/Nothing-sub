@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Founder Wall — Subscription to Nothing™</title>
+  <meta name="description" content="The Founder Wall. A list of people proudly supporting nothing." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Subscription to Nothing™</span>
+      </div>
+      <nav>
+        <a href="./index.html#pricing">Pricing</a>
+        <a href="./index.html#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <main style="margin-top:46px;">
+      <h1 style="margin:0 0 10px;">Founder Wall</h1>
+      <p class="lead" style="margin-top:0;">
+        A public list of people who chose <strong>nothing</strong> on purpose.
+      </p>
+
+      <div class="card" style="margin-top:18px;">
+        <div class="foundersHeader">
+          <h3 style="margin:0;">Founders</h3>
+          <span class="tag" id="foundersCount">0</span>
+        </div>
+
+        <div id="foundersEmpty" class="muted" style="margin-top:10px; display:none;">
+          No founders yet. Be the first to put your name on the wall.
+        </div>
+
+        <ol id="foundersList" class="foundersList"></ol>
+
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn primary" href="./index.html#pricing">Become a Founder</a>
+          <button class="btn" type="button" id="clearFoundersBtn">Clear local list</button>
+        </div>
+
+        <p class="fine" style="margin-top:12px;">
+          Note: this demo stores the list in your browser (localStorage). For a truly public wall for everyone,
+          you’ll want a tiny backend (e.g. Supabase).
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="./founders.js"></script>
+</body>
+</html>
