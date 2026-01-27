@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Thank you — Subscription to Nothing™</title>
+  <meta name="description" content="Thanks for choosing nothing. Add your name to the Founder Wall." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Subscription to Nothing™</span>
+      </div>
+      <nav>
+        <a href="./index.html#pricing">Pricing</a>
+        <a href="./founders.html">Founder Wall</a>
+      </nav>
+    </header>
+
+    <main style="margin-top:46px;">
+      <h1 style="margin:0 0 10px;">Thank you.</h1>
+      <p class="lead" style="margin-top:0;">
+        Your purchase of <strong>nothing</strong> has been processed.
+        Yes. Really.
+      </p>
+
+      <div class="card" style="margin-top:18px;">
+        <h3 style="margin:0 0 10px;">Add your name to the Founder Wall</h3>
+
+        <label class="muted" for="founderNameTY" style="display:block;margin-top:12px;margin-bottom:6px;">
+          Your name or nickname (shown publicly)
+        </label>
+
+        <div class="founderRow">
+          <input
+            id="founderNameTY"
+            class="input"
+            type="text"
+            maxlength="32"
+            placeholder="e.g. Kris / VoidLord / Jane"
+            autocomplete="nickname"
+          />
+          <button class="btn primary" type="button" id="addFounderBtn">
+            Add me
+          </button>
+        </div>
+
+        <p class="fine muted" id="statusMsg" style="margin-top:10px;"></p>
+
+        <div class="ctaRow" style="margin-top:14px">
+          <a class="btn" href="./founders.html">View Founder Wall</a>
+          <a class="btn" href="./index.html">Back to home</a>
+        </div>
+
+        <p class="fine" style="margin-top:12px;">
+          Keep it clean — max 32 characters. Letters/numbers/spaces/dot/underscore/dash.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./thank-you.js"></script>
+</body>
+</html>
