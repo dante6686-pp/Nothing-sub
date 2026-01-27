@@ -141,6 +141,31 @@
               <li>Numbered entry (optional)</li>
               <li>Maximum irony level</li>
             </ul>
+            <label class="muted" for="founderName" style="display:block;margin-top:12px;margin-bottom:6px;">
+  Your name or nickname (shown on the Founder Wall)
+</label>
+
+<div class="founderRow">
+  <input
+    id="founderName"
+    class="input"
+    type="text"
+    maxlength="32"
+    placeholder="e.g. Kris / VoidLord / Jane"
+    autocomplete="nickname"
+  />
+  <button class="btn primary" type="button" id="becomeFounderBtn">
+    Become a Founder
+  </button>
+</div>
+
+<p class="fine" style="margin-top:10px">
+  You’ll be added to the public Founder Wall.
+</p>
+
+<p class="fine" style="margin-top:6px">
+  <a class="tinyLink" href="./founders.html">View Founder Wall</a>
+</p>
             <div class="ctaRow" style="margin-top:14px">
               <a class="btn primary" href="#">Become a Founder</a>
             </div>
@@ -198,6 +223,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+<script src="./supabase-config.js"></script>
+<script src="./founders-submit.js"></script>
 </body>
 </html>
