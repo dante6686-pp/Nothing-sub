@@ -269,12 +269,12 @@ summary{ cursor:pointer; font-weight:800; }
 
 .kpi{
   display:flex;
-  gap:10px;
+  gap:7px;
   flex-wrap:wrap;
   margin-top:12px;
 }
 
-.kpi .pill{ font-size:13px; }
+.kpi .pill{ font-size:11px; }
 
 .tinyLink{
   color:var(--muted);
