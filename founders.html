@@ -34,25 +34,20 @@
         </div>
 
         <div id="foundersEmpty" class="muted" style="margin-top:10px; display:none;">
-          No founders yet. Be the first to put your name on the wall.
+          No founders yet. Be the first.
         </div>
 
         <ol id="foundersList" class="foundersList"></ol>
 
-        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn primary" href="./index.html#pricingfounder">Become a Founder</a>
-          <button class="btn" type="button" id="clearFoundersBtn">Clear local list</button>
+        <div style="margin-top:16px;">
+          <a class="btn primary" href="./index.html#pricing">Become a Founder</a>
         </div>
-
-        <p class="fine" style="margin-top:12px;">
-          Note: this demo stores the list in your browser (localStorage). For a truly public wall for everyone,
-          you’ll want a tiny backend (e.g. Supabase).
-        </p>
       </div>
     </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./founders.js"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./founders-list.js"></script>
 </body>
 </html>
