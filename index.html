@@ -26,14 +26,15 @@
       <div class="hero">
         <div>
           <h1 class="intro">
-  You pay. You get nothing.<br/>
-  Yes. Really.
-</h1>
-<p class="lead intro">
-  When everything demands your attention,<br/>
-  we give you something rare: <strong>nothing at all.</strong><br/>
-  No pressure. No notifications. No content.
-</p>
+            You pay. You get nothing.<br/>
+            Yes. Really.
+          </h1>
+
+          <p class="lead intro">
+            When everything demands your attention,<br/>
+            we give you something rare: <strong>nothing at all.</strong><br/>
+            No pressure. No notifications. No content.
+          </p>
 
           <div class="ctaRow">
             <!-- Replace # with your payment link (Stripe/PayPal) -->
@@ -48,8 +49,8 @@
           </div>
 
           <div class="noteBox">
-            <strong>Note:</strong> This is not a product, a course, an app, or a community. It’s a <strong>subscription to nothing</strong>.
-            Its main function is having no functions.
+            <strong>Note:</strong> This is not a product, a course, an app, or a community.
+            It’s a <strong>subscription to nothing</strong>. Its main function is having no functions.
           </div>
         </div>
 
@@ -76,6 +77,7 @@
               Basic, Premium, or Founder. The difference is how loudly you want to highlight your relationship with nothing.
             </p>
           </div>
+
           <div class="card">
             <span class="tag">Step 2</span>
             <h3 style="margin:10px 0 6px">Pay</h3>
@@ -83,6 +85,7 @@
               The transaction works normally. It’s the only “feature” that works at 100%.
             </p>
           </div>
+
           <div class="card">
             <span class="tag">Step 3</span>
             <h3 style="margin:10px 0 6px">Receive absence</h3>
@@ -95,100 +98,103 @@
 
       <section id="pricing">
         <h2 style="margin:0 0 12px;font-size:26px">Pricing</h2>
+
         <div class="grid3">
+          <!-- Basic -->
           <div class="card">
             <div class="tierTitle">
               <h3>Nothing Basic</h3>
               <span class="tag">Most popular</span>
             </div>
-            <div class="price">1 $ <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span></div>
+
+            <div class="price">
+              1 $ <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span>
+            </div>
+
             <ul class="features">
               <li>Welcome email</li>
               <li>Monthly “still nothing”</li>
               <li>Minimalism satisfaction</li>
             </ul>
+
             <div class="ctaRow" style="margin-top:14px">
               <a class="btn primary" href="#">Choose Basic</a>
             </div>
+
             <p class="fine" style="margin-top:10px">For people who want less — consistently.</p>
           </div>
 
+          <!-- Premium -->
           <div class="card" style="border-color: rgba(124,92,255,.35)">
             <div class="tierTitle">
               <h3>Nothing Premium</h3>
               <span class="tag">More nothing</span>
             </div>
-            <div class="price">2 $ <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span></div>
+
+            <div class="price">
+              2 $ <span class="muted" style="font-size:14px;font-weight:700">/ mo.</span>
+            </div>
+
             <ul class="features">
               <li>Everything from Basic</li>
               <li>The same thing, just pricier</li>
               <li>Better “this is a gift” energy</li>
             </ul>
+
             <div class="ctaRow" style="margin-top:14px">
               <a class="btn primary" href="#">Choose Premium</a>
             </div>
+
             <p class="fine" style="margin-top:10px">For those who like premium… even if it doesn’t exist.</p>
           </div>
 
-          
-
-<p class="fine" style="margin-top:10px">
-  You’ll be added to the public Founder Wall.
-</p>
-
-<p class="fine" style="margin-top:6px">
-  <a class="tinyLink" href="./founders.html">View Founder Wall</a>
-</p>
-            <div class="ctaRow" style="margin-top:14px">
-              <a class="btn primary" href="#">Become a Founder</a>
+          <!-- Founder -->
+          <div class="card" id="pricingfounder">
+            <div class="tierTitle">
+              <h3>Founder of Nothing</h3>
+              <span class="tag">One-time</span>
             </div>
-            <p class="fine" style="margin-top:10px">For meme collectors and people who like proof.</p>
+
+            <div class="price">
+              4 $ <span class="muted" style="font-size:14px;font-weight:700">once</span>
+            </div>
+
+            <ul class="features">
+              <li>PDF certificate: “Founder of Nothing”</li>
+              <li>Numbered entry (optional)</li>
+              <li>Maximum irony level</li>
+            </ul>
+
+            <div class="founderAction">
+              <label class="muted" for="founderName">
+                Your name or nickname (shown on the Founder Wall)
+              </label>
+
+              <div class="founderRow">
+                <input
+                  id="founderName"
+                  class="input"
+                  type="text"
+                  maxlength="32"
+                  placeholder="e.g. Kris / VoidLord / Jane"
+                  autocomplete="nickname"
+                />
+                <button class="btn primary" type="button" id="becomeFounderBtn">
+                  Become a Founder
+                </button>
+              </div>
+
+              <p class="fine" style="margin-top:10px">
+                You’ll be added to the public Founder Wall.
+                <a class="tinyLink" href="./founders.html">View it</a>
+              </p>
+            </div>
+
+            <p class="fine" style="margin-top:12px">
+              For meme collectors and people who like proof.
+            </p>
           </div>
-    <div class="card" id="pricingfounder">
-  <div class="tierTitle">
-    <h3>Founder of Nothing</h3>
-    <span class="tag">One-time</span>
-  </div>
-
-  <div class="price">
-    4 $ <span class="muted" style="font-size:14px;font-weight:700">once</span>
-  </div>
-
-  <ul class="features">
-    <li>PDF certificate: “Founder of Nothing”</li>
-    <li>Numbered entry (optional)</li>
-    <li>Maximum irony level</li>
-  </ul>
-
-  <div class="founderAction">
-    <label class="muted" for="founderName">
-      Your name or nickname (shown on the Founder Wall)
-    </label>
-
-    <div class="founderRow">
-      <input
-        id="founderName"
-        class="input"
-        type="text"
-        maxlength="32"
-        placeholder="e.g. Kris / VoidLord / Jane"
-        autocomplete="nickname"
-      />
-      <button class="btn primary" type="button" id="becomeFounderBtn">
-        Become a Founder
-      </button>
-    </div>
-
-    <p class="fine" style="margin-top:10px">
-      You’ll be added to the public Founder Wall.
-      <a class="tinyLink" href="./founders.html">View it</a>
-    </p>
-  </div>
-
-  <p class="fine" style="margin-top:12px">
-    For meme collectors and people who like proof.
-  </p>
-    </div>    </div>
+        </div>
       </section>
 
       <section id="faq">
@@ -240,7 +246,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./supabase-config.js"></script>
-<script src="./founders-submit.js"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./founders-submit.js"></script>
 </body>
 </html>
