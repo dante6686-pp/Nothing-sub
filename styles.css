@@ -309,3 +309,55 @@ summary{ cursor:pointer; font-weight:800; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.input{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  outline: none;
+}
+.input::placeholder{ color: rgba(233,233,239,.45); }
+.input:focus{
+  border-color: rgba(124,92,255,.45);
+  box-shadow: 0 0 0 6px rgba(124,92,255,.10);
+}
+
+.founderRow{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.founderRow .input{
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+
+.foundersHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.foundersList{
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.founderItem{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.founderItem:last-child{ border-bottom: none; }
+
+.founderMeta{
+  font-size: 12px;
+  white-space: nowrap;
+}
