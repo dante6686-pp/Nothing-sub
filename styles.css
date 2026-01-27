@@ -19,7 +19,7 @@ body{
   
   background:
   radial-gradient(circle at top, rgba(124,92,255,.12), transparent 60%),
-  url(".media/bg-nothing.png");
+  url("./media/bg-nothing.png");
 
   background-size: cover, 300px 300px;
   }
