@@ -731,3 +731,30 @@ summary{ cursor:pointer; font-weight:800; }
 @keyframes spin{
   to{ transform: rotate(360deg); }
 }
+
+.nothingLoader--posh{
+  gap:16px;
+}
+
+.orbit{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  position:relative;
+}
+
+.orbit span{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background: linear-gradient(135deg,#7c5cff,#1dd3b0);
+  transform-origin:-14px 0;
+  animation: orbit 1.6s linear infinite;
+}
+
+@keyframes orbit{
+  to{ transform: rotate(360deg); }
+}
