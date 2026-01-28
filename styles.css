@@ -908,7 +908,7 @@ summary{ cursor:pointer; font-weight:800; }
   inset: 0;
   opacity: 0;
   transform: translateY(6px);
-  animation: nnRotate 7s infinite;
+  animation: nnRotate 10s infinite;
 }
 
 .nnText > span:nth-child(1){
