@@ -489,3 +489,63 @@ summary{ cursor:pointer; font-weight:800; }
 .fancyLink--founder:hover{
   border-color: rgba(124,92,255,.55);
 }
+
+/* === Founder Wall link animation (subtle) === */
+.fancyLink--reveal{
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fwReveal .45s ease forwards;
+  animation-delay: .25s;
+}
+
+/* soft shimmer */
+.fancyLink--reveal::after{
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -60%;
+  width: 40%;
+  height: 180%;
+  transform: rotate(18deg);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.18),
+    transparent
+  );
+
+  opacity: .0;
+  animation: fwShimmer 4.8s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes fwReveal{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fwShimmer{
+  0%, 70% { opacity: 0; transform: translateX(0) rotate(18deg); }
+  78%     { opacity: .35; }
+  92%     { opacity: 0; transform: translateX(320%) rotate(18deg); }
+  100%    { opacity: 0; transform: translateX(320%) rotate(18deg); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .fancyLink--reveal{
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .fancyLink--reveal::after{
+    animation: none;
+    display: none;
+  }
+}
