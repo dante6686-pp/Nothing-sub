@@ -549,3 +549,172 @@ summary{ cursor:pointer; font-weight:800; }
     display: none;
   }
 }
+
+/* === Founder Wall (fancy) === */
+
+.fwHero{ margin-top: 10px; }
+.fwHeroTop{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+
+.fwTitle{
+  margin:0;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: .2px;
+}
+@media (max-width:520px){ .fwTitle{ font-size: 36px; } }
+
+.fwMeta{ display:flex; gap:10px; flex-wrap:wrap; }
+.fwPill{
+  display:inline-flex; align-items:center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+  color: rgba(233,233,239,.75);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .25px;
+}
+
+.fwLead{
+  margin: 10px 0 0;
+  color: rgba(233,233,239,.88);
+  max-width: 62ch;
+  line-height: 1.6;
+  font-size: 18px;
+}
+.fwLeadSmall{
+  display:inline-block;
+  margin-left: 6px;
+  color: rgba(233,233,239,.66);
+  font-size: 14px;
+}
+
+.fwBanner{
+  position: relative;
+  margin-top: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0,0,0,.22);
+}
+.fwBanner svg{ display:block; width:100%; height: 180px; }
+.fwBannerText{
+  position:absolute; inset: 0;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding: 16px;
+}
+.fwBannerKicker{
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  color: rgba(233,233,239,.72);
+}
+.fwBannerBig{
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 800;
+  color: rgba(233,233,239,.92);
+}
+
+.fwActions{
+  margin-top: 14px;
+  display:flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.fwCountCard{
+  display:flex; align-items:center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+}
+.fwCountLabel{
+  color: rgba(233,233,239,.68);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .25px;
+  text-transform: uppercase;
+}
+.fwCountNum{
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: .2px;
+}
+
+.fwPanelTop{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.fwPanelTitle{ margin:0; font-size: 18px; }
+
+.fwPanelControls{
+  display:flex; gap: 10px; align-items:center; flex-wrap: wrap;
+}
+.fwSearch{
+  min-width: min(320px, 78vw);
+}
+
+.fwList{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (max-width:900px){ .fwList{ grid-template-columns: 1fr; } }
+
+.fwItem{
+  display:flex; align-items:center; justify-content:space-between; gap: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.02);
+}
+.fwLeft{ display:flex; gap: 12px; align-items:center; min-width:0; }
+.fwBadge{
+  width: 36px; height: 36px; border-radius: 12px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight: 950;
+  background: linear-gradient(135deg, rgba(124,92,255,.65), rgba(29,211,176,.55));
+  color: #0b0c10;
+  flex: 0 0 auto;
+}
+.fwName{
+  font-weight: 900;
+  color: rgba(233,233,239,.92);
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.fwSub{
+  font-size: 12px;
+  color: rgba(233,233,239,.60);
+  margin-top: 2px;
+}
+.fwRank{
+  font-size: 12px;
+  color: rgba(233,233,239,.65);
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.02);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.fwEmpty{
+  margin-top: 16px;
+  text-align:center;
+  padding: 18px 10px;
+}
+.fwEmptyTitle{ font-weight: 950; font-size: 18px; }
+.fwEmptyText{ margin-top: 6px; color: rgba(233,233,239,.65); }
+
+/* nicer "fancyLink" works here too (if you use it elsewhere) */
