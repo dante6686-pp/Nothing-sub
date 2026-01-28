@@ -6,6 +6,12 @@
   <title>Nothing Basic — Subscription to Nothing™</title>
   <meta name="description" content="Subscribe to Nothing Basic. You pay. You get nothing." />
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- PayPal Subscriptions SDK (load once) -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AQUQD1BI6PYwYy4oi1jg8V47qbLhimKa8vcsU0cIrBpoH_PV--V2iEbe8oO7u0Y1HaoDw9-FmLnjQSwl&vault=true&intent=subscription&currency=USD"
+    data-sdk-integration-source="button-factory">
+  </script>
 </head>
 
 <body>
@@ -31,24 +37,66 @@
         <h3 style="margin:0 0 10px;">Checkout</h3>
 
         <p class="muted" style="margin:0 0 12px; line-height:1.6;">
-          You’ll be taken to PayPal to complete your subscription.
+          Complete subscription via PayPal. You’ll be redirected after approval.
         </p>
 
-        <!-- PASTE YOUR PAYPAL BASIC BUTTON CODE HERE -->
-        <!-- Example: the <form> ... hosted_button_id ... </form> block from PayPal -->
-        <div class="paypalBox">
-          <!-- PASTE_PAYPAL_BUTTON_CODE_HERE -->
-        </div>
+        <div id="paypal-button-container-basic"></div>
+
+        <p class="fine muted" id="basicStatus" style="margin-top:10px;"></p>
 
         <div class="ctaRow" style="margin-top:14px;">
           <a class="btn" href="./index.html#pricing">Back</a>
         </div>
 
         <p class="fine" style="margin-top:12px;">
-          Note: this is a subscription. It renews monthly until cancelled.
+          Note: This is a subscription. It renews monthly until cancelled in PayPal.
         </p>
       </div>
     </main>
   </div>
+
+  <script>
+    (function () {
+      const statusEl = document.getElementById("basicStatus");
+
+      function setStatus(text) {
+        if (statusEl) statusEl.textContent = text || "";
+      }
+
+      paypal.Buttons({
+        // Jeśli chcesz, możesz wywalić style i zostawić default (ładnie wygląda)
+        style: {
+          layout: 'vertical',
+          label: 'subscribe'
+        },
+
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: 'P-8MY23877TE524540PNF4ORLI'
+          });
+        },
+
+        onApprove: function (data, actions) {
+          // data.subscriptionID jest dostępne
+          setStatus("Subscribed. Welcome to nothing. Redirecting…");
+
+          // Najprościej: redirect na stronę “thanks for subscribing”
+          // (możesz zrobić osobną: thanks-basic.html)
+          const url = new URL("./thanks-basic.html", window.location.href);
+          url.searchParams.set("sub", data.subscriptionID);
+          window.location.href = url.toString();
+        },
+
+        onCancel: function () {
+          setStatus("Checkout cancelled. Nothing happened.");
+        },
+
+        onError: function (err) {
+          console.error(err);
+          setStatus("PayPal error. Try again in a moment.");
+        }
+      }).render('#paypal-button-container-basic');
+    })();
+  </script>
 </body>
 </html>
