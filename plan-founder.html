@@ -4,53 +4,48 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Founder of Nothing — Subscription to Nothing™</title>
-  <meta name="description" content="Become a Founder of Nothing. One-time payment, maximum irony." />
+  <meta name="description" content="Become a Founder of Nothing. One-time payment." />
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- PayPal SDK -->
+  <script 
+    src="https://www.paypal.com/sdk/js?client-id=BAAa1M7EJkya-P7IKrIOIVX9X8xNPElpNvG_u61R7VB3lavyEzoK8LtyxvDTi8c5llShue0K1OPCcc56gc&components=hosted-buttons&disable-funding=venmo&currency=USD">
+  </script>
 </head>
 
 <body>
   <div class="wrap">
     <header>
       <div class="logo">
-        <span class="dot" aria-hidden="true"></span>
+        <span class="dot"></span>
         <span>Subscription to Nothing™</span>
       </div>
-      <nav>
-        <a href="./index.html#pricing">Pricing</a>
-        <a href="./founders.html">Founder Wall</a>
-      </nav>
     </header>
 
     <main style="margin-top:46px;">
-      <h1 style="margin:0 0 10px;">Founder of Nothing</h1>
-      <p class="lead" style="margin-top:0;">
-        $4 one-time. Your name goes on the Founder Wall (after checkout).
+      <h1>Founder of Nothing</h1>
+      <p class="lead">
+        $4 one-time. After payment, you’ll choose a name for the Founder Wall.
       </p>
 
       <div class="card" style="margin-top:18px;">
-        <h3 style="margin:0 0 10px;">Checkout</h3>
+        <h3>Checkout</h3>
 
-        <p class="muted" style="margin:0 0 12px; line-height:1.6;">
-          Complete payment via PayPal. After payment, you’ll land on the Thank You page to enter your name.
+        <p class="muted">
+          Complete payment via PayPal. You’ll be redirected after checkout.
         </p>
 
-        <!-- PASTE YOUR PAYPAL FOUNDER BUY NOW BUTTON CODE HERE -->
-        <div class="paypalBox">
-          <!-- PASTE_PAYPAL_BUTTON_CODE_HERE -->
-          <div id="paypal-container-2LGT58UA2CX9E"></div>
-<script>
-  paypal.HostedButtons({
-    hostedButtonId: "2LGT58UA2CX9E",
-  }).render("#paypal-container-2LGT58UA2CX9E")
-</script>
-        </div>
+        <!-- PayPal Hosted Button -->
+        <div id="paypal-container-2LGT58UA2CX9E"></div>
 
-        <div class="ctaRow" style="margin-top:14px;">
-          <a class="btn" href="./index.html#pricing">Back</a>
-        </div>
+        <script>
+          paypal.HostedButtons({
+            hostedButtonId: "2LGT58UA2CX9E",
+          }).render("#paypal-container-2LGT58UA2CX9E");
+        </script>
 
         <p class="fine" style="margin-top:12px;">
-          Make sure your PayPal button has Return URL set to <strong>thank-you.html</strong>.
+          After payment you’ll land on the Thank You page to enter your name.
         </p>
       </div>
     </main>
