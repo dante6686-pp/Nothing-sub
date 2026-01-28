@@ -475,3 +475,17 @@ summary{ cursor:pointer; font-weight:800; }
 
   letter-spacing: .2px;
 }
+
+/* Founder-specific fancy link */
+.fancyLink--founder{
+  background:
+    radial-gradient(120% 140% at 20% 10%, rgba(124,92,255,.22), transparent 60%),
+    radial-gradient(120% 140% at 80% 40%, rgba(29,211,176,.18), transparent 60%),
+    rgba(255,255,255,.04);
+
+  border-color: rgba(124,92,255,.35);
+}
+
+.fancyLink--founder:hover{
+  border-color: rgba(124,92,255,.55);
+}
