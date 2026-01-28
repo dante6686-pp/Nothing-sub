@@ -841,3 +841,102 @@ summary{ cursor:pointer; font-weight:800; }
     position: static;
   }
 }
+
+/* === Nothing Loader (namespaced) === */
+
+.nnLoader{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  opacity: .92;
+}
+
+/* inline = bez wielkiej pustki */
+.nnLoader--inline{
+  padding: 14px 0;
+}
+
+/* center = jak chcesz na środku ekranu */
+.nnLoader--center{
+  min-height: 60vh;
+}
+
+/* spinner */
+.nnOrbit{
+  width: 42px;
+  height: 42px;
+  position: relative;
+}
+
+.nnOrbit > span{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(124,92,255,1), rgba(29,211,176,1));
+  transform-origin: -14px 0;
+  animation: nnSpin 1.6s linear infinite;
+}
+
+@keyframes nnSpin{
+  to{ transform: rotate(360deg); }
+}
+
+/* rotating text */
+.nnText{
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 18px;
+  overflow: hidden;
+
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: .6px;
+  color: rgba(233,233,239,.70);
+  text-transform: lowercase;
+  text-align: center;
+}
+
+/* IMPORTANT: first line is visible by default */
+.nnText > span{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  animation: nnRotate 8s infinite;
+}
+
+.nnText > span:nth-child(1){
+  opacity: 1;                 /* fallback if animation is blocked */
+  transform: translateY(0);
+  animation-delay: 0s;
+}
+.nnText > span:nth-child(2){ animation-delay: 2s; }
+.nnText > span:nth-child(3){ animation-delay: 4s; }
+.nnText > span:nth-child(4){ animation-delay: 6s; }
+
+@keyframes nnRotate{
+  0%   { opacity: 0; transform: translateY(6px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 1; transform: translateY(0); }
+  50%  { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .nnOrbit > span{ animation: none; }
+  .nnText{ height: auto; }
+  .nnText > span{
+    position: static;
+    opacity: 1;
+    transform: none;
+    animation: none;
+    display: block;
+  }
+}
