@@ -758,3 +758,86 @@ summary{ cursor:pointer; font-weight:800; }
 @keyframes orbit{
   to{ transform: rotate(360deg); }
 }
+
+/* === FULL CENTER === */
+.nothingCenter{
+  min-height: 60vh; /* albo 100vh jeśli chcesz full */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === LOADER === */
+.nothingLoader{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: .9;
+}
+
+/* spinner */
+.orbit{
+  width: 42px;
+  height: 42px;
+  position: relative;
+}
+
+.orbit span{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c5cff, #1dd3b0);
+  transform-origin: -14px 0;
+  animation: orbitSpin 1.6s linear infinite;
+}
+
+@keyframes orbitSpin{
+  to{ transform: rotate(360deg); }
+}
+
+/* === ROTATING TEXT === */
+.nothingText{
+  position: relative;
+  height: 18px;
+  font-size: 13px;
+  letter-spacing: .6px;
+  color: rgba(233,233,239,.65);
+  text-transform: lowercase;
+  overflow: hidden;
+}
+
+.nothingText span{
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  opacity: 0;
+  animation: textRotate 8s infinite;
+}
+
+.nothingText span:nth-child(1){ animation-delay: 0s }
+.nothingText span:nth-child(2){ animation-delay: 2s }
+.nothingText span:nth-child(3){ animation-delay: 4s }
+.nothingText span:nth-child(4){ animation-delay: 6s }
+
+@keyframes textRotate{
+  0%   { opacity: 0; transform: translateY(6px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  40%  { opacity: 1; transform: translateY(0); }
+  50%  { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .orbit span{ animation: none; }
+  .nothingText span{
+    animation: none;
+    opacity: 1;
+    position: static;
+  }
+}
