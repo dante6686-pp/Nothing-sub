@@ -718,3 +718,16 @@ summary{ cursor:pointer; font-weight:800; }
 .fwEmptyText{ margin-top: 6px; color: rgba(233,233,239,.65); }
 
 /* nicer "fancyLink" works here too (if you use it elsewhere) */
+
+.ring{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.12);
+  border-top-color: rgba(124,92,255,.9);
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin{
+  to{ transform: rotate(360deg); }
+}
