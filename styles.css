@@ -384,3 +384,49 @@ summary{ cursor:pointer; font-weight:800; }
   flex-wrap: wrap;
   gap: 10px;
 }
+
+/* === PLAN PAGES (Basic / Premium) === */
+
+.planTitle{
+  font-size: 42px;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+
+@media (max-width:520px){
+  .planTitle{
+    font-size: 34px;
+  }
+}
+
+/* zamiast szarego “badziewia” */
+.planSubtitle{
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 42ch;
+
+  color: rgba(233,233,239,.92);
+  font-weight: 500;
+
+  /* subtelny akcent */
+  background: linear-gradient(
+    135deg,
+    rgba(124,92,255,.12),
+    rgba(29,211,176,.10)
+  );
+  padding: 10px 14px;
+  border-radius: 14px;
+
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* cichy link po checkout */
+.afterCheckout{
+  margin-top: 22px;
+  text-align: center;
+}
+
+/* żeby PayPal nie wyglądał jak obcy byt */
+#paypal-button-container-basic{
+  margin-top: 6px;
+}
