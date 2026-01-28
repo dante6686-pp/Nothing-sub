@@ -7,7 +7,7 @@
   <meta name="description" content="Subscribe to Nothing Basic. You pay. You get nothing." />
   <link rel="stylesheet" href="./styles.css" />
 
-  <!-- PayPal Subscriptions SDK (load once) -->
+  <!-- PayPal Subscriptions SDK -->
   <script
     src="https://www.paypal.com/sdk/js?client-id=AQUQD1BI6PYwYy4oi1jg8V47qbLhimKa8vcsU0cIrBpoH_PV--V2iEbe8oO7u0Y1HaoDw9-FmLnjQSwl&vault=true&intent=subscription&currency=USD"
     data-sdk-integration-source="button-factory">
@@ -21,36 +21,37 @@
         <span class="dot" aria-hidden="true"></span>
         <span>Subscription to Nothing™</span>
       </div>
-      <nav>
-        <a href="./index.html#pricing">Pricing</a>
-        <a href="./founders.html">Founder Wall</a>
-      </nav>
     </header>
 
     <main style="margin-top:46px;">
-      <h1 style="margin:0 0 10px;">Nothing Basic</h1>
-      <p class="lead" style="margin-top:0;">
-        $1 / month. The cleanest subscription you’ll ever own.
+      <h1 class="planTitle">Nothing Basic</h1>
+
+      <p class="planSubtitle">
+        $1 / month — a quiet commitment to absolutely nothing.
       </p>
 
-      <div class="card" style="margin-top:18px;">
+      <div class="card" style="margin-top:22px;">
         <h3 style="margin:0 0 10px;">Checkout</h3>
 
-        <p class="muted" style="margin:0 0 12px; line-height:1.6;">
-          Complete subscription via PayPal. You’ll be redirected after approval.
+        <p class="muted" style="margin:0 0 14px; line-height:1.6;">
+          Complete your subscription via PayPal. You’ll be redirected after approval.
         </p>
 
         <div id="paypal-button-container-basic"></div>
 
         <p class="fine muted" id="basicStatus" style="margin-top:10px;"></p>
 
-        <div class="ctaRow" style="margin-top:14px;">
-          <a class="btn" href="./index.html#pricing">Back</a>
+        <div class="ctaRow" style="margin-top:18px;">
+          <a class="btn" href="./index.html#pricing">Back to pricing</a>
         </div>
 
         <p class="fine" style="margin-top:12px;">
-          Note: This is a subscription. It renews monthly until cancelled in PayPal.
+          This subscription renews monthly until cancelled in PayPal.
         </p>
+      </div>
+
+      <div class="afterCheckout">
+        <a class="tinyLink" href="./founders.html">View Founder Wall</a>
       </div>
     </main>
   </div>
@@ -64,7 +65,6 @@
       }
 
       paypal.Buttons({
-        // Jeśli chcesz, możesz wywalić style i zostawić default (ładnie wygląda)
         style: {
           layout: 'vertical',
           label: 'subscribe'
@@ -76,15 +76,8 @@
           });
         },
 
-        onApprove: function (data, actions) {
-          // data.subscriptionID jest dostępne
-          setStatus("Subscribed. Welcome to nothing. Redirecting…");
-
-          // Najprościej: redirect na stronę “thanks for subscribing”
-          // (możesz zrobić osobną: thanks-basic.html)
-          const url = new URL("./thanks-basic.html", window.location.href);
-          url.searchParams.set("sub", data.subscriptionID);
-          window.location.href = url.toString();
+        onApprove: function (data) {
+          setStatus("Subscribed. Welcome to nothing.");
         },
 
         onCancel: function () {
