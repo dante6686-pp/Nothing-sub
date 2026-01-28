@@ -6,6 +6,12 @@
   <title>Nothing Premium — Subscription to Nothing™</title>
   <meta name="description" content="Subscribe to Nothing Premium. More nothing, same honesty." />
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- PayPal Subscriptions SDK -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AQUQD1BI6PYwYy4oi1jg8V47qbLhimKa8vcsU0cIrBpoH_PV--V2iEbe8oO7u0Y1HaoDw9-FmLnjQSwl&vault=true&intent=subscription&currency=USD"
+    data-sdk-integration-source="button-factory">
+  </script>
 </head>
 
 <body>
@@ -15,39 +21,76 @@
         <span class="dot" aria-hidden="true"></span>
         <span>Subscription to Nothing™</span>
       </div>
-      <nav>
-        <a href="./index.html#pricing">Pricing</a>
-        <a href="./founders.html">Founder Wall</a>
-      </nav>
     </header>
 
     <main style="margin-top:46px;">
-      <h1 style="margin:0 0 10px;">Nothing - Premium</h1>
-      <p class="lead" style="margin-top:0;">
-        $2 / month. The same nothing, just pricier.
+      <h1 class="planTitle">Nothing Premium</h1>
+
+      <p class="planSubtitle planSubtitle--posh">
+        $2 / month — the same nothing, delivered with unnecessary elegance.
       </p>
 
-      <div class="card" style="margin-top:18px;">
+      <div class="card" style="margin-top:22px; border-color: rgba(124,92,255,.28);">
         <h3 style="margin:0 0 10px;">Checkout</h3>
 
-        <p class="muted" style="margin:0 0 12px; line-height:1.6;">
-          You’ll be taken to PayPal to complete your subscription.
+        <p class="muted" style="margin:0 0 14px; line-height:1.6;">
+          Complete your subscription via PayPal. You’ll be redirected after approval.
         </p>
 
-        <!-- PASTE YOUR PAYPAL PREMIUM BUTTON CODE HERE -->
-        <div class="paypalBox">
-          <!-- PASTE_PAYPAL_BUTTON_CODE_HERE -->
-        </div>
+        <div id="paypal-button-container-premium"></div>
 
-        <div class="ctaRow" style="margin-top:14px;">
-          <a class="btn" href="./index.html#pricing">Back</a>
+        <p class="fine muted" id="premiumStatus" style="margin-top:10px;"></p>
+
+        <div class="ctaRow" style="margin-top:18px;">
+          <a class="btn" href="./index.html#pricing">Back to pricing</a>
         </div>
 
         <p class="fine" style="margin-top:12px;">
-          Note: this is a subscription. It renews monthly until cancelled.
+          This subscription renews monthly until cancelled in PayPal.
         </p>
+      </div>
+
+      <div class="afterCheckout">
+        <a class="fancyLink" href="./founders.html">
+          <span class="fancyLink__icon" aria-hidden="true">✦</span>
+          <span>Founder Wall</span>
+          <span class="fancyLink__icon" aria-hidden="true">✦</span>
+        </a>
       </div>
     </main>
   </div>
+
+  <script>
+    (function () {
+      const statusEl = document.getElementById("premiumStatus");
+      function setStatus(text) { if (statusEl) statusEl.textContent = text || ""; }
+
+      paypal.Buttons({
+        style: {
+          layout: 'vertical',
+          label: 'subscribe'
+        },
+
+        createSubscription: function (data, actions) {
+          return actions.subscription.create({
+            plan_id: 'P-9PX27986RR6288602NF4OZDQ'
+          });
+        },
+
+        onApprove: function (data) {
+          setStatus("Subscribed. Nothing, but make it premium.");
+        },
+
+        onCancel: function () {
+          setStatus("Checkout cancelled. Nothing happened (luxuriously).");
+        },
+
+        onError: function (err) {
+          console.error(err);
+          setStatus("PayPal error. Try again in a moment.");
+        }
+      }).render('#paypal-button-container-premium');
+    })();
+  </script>
 </body>
 </html>
