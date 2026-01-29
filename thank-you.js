@@ -74,12 +74,7 @@
     founderStatus.textContent = "Adding you to the Wall…";
 
     // IMPORTANT: change table name here if yours is different
-    const payload = {
-      name: raw,
-      plan: "founder",
-      source: "thank-you",
-      paypal_ref: subId || tx || null
-    };
+    const payload = { name: raw };
 
     const { data, error } = await sb.from("founders").insert(payload);
 
