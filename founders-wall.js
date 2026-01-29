@@ -12,21 +12,35 @@
 
   let all = [];
   let sortMode = (sortBtn?.dataset.sort || "newest"); // newest | oldest
+  let firstFounderId = null; // FIRST EVER founder (oldest created_at)
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
   function fmtDate(iso) {
     if (!iso) return "";
     const d = new Date(iso);
     if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
+    return d.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
   }
 
   function render() {
     const q = (searchEl?.value || "").trim().toLowerCase();
 
     let items = all.slice();
-    if (q) items = items.filter(x => (x.name || "").toLowerCase().includes(q));
+    if (q) items = items.filter((x) => (x.name || "").toLowerCase().includes(q));
 
-    // sort
+    // sort view (does NOT affect "first ever" badge)
     items.sort((a, b) => {
       const da = new Date(a.created_at).getTime() || 0;
       const db = new Date(b.created_at).getTime() || 0;
@@ -42,31 +56,44 @@
     }
     if (emptyEl) emptyEl.style.display = "none";
 
-    for (const row of items) {
+    items.forEach((row, idx) => {
       const item = document.createElement("div");
-      item.className = "fwItem";
+
+      // subtle glow for first 10 items in the CURRENT view
+      const isTop10 = idx < 10;
+
+      // badge for the FIRST EVER founder (oldest created_at), regardless of view sorting/search
+      const isFirstEver = firstFounderId && row.id === firstFounderId;
+
+      item.className = "fwItem" + (isTop10 ? " fwItemTop10" : "");
+
       item.innerHTML = `
+        ${isFirstEver ? `<div class="fwBadge">1st Founder</div>` : ``}
         <div class="fwItemName">${escapeHtml(row.name || "")}</div>
         <div class="fwItemMeta">${fmtDate(row.created_at)}</div>
       `;
-      listEl.appendChild(item);
-    }
-  }
 
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+      listEl.appendChild(item);
+    });
   }
 
   async function load() {
-    // Pobieramy z Supabase
+    // 1) Get FIRST EVER founder id (oldest)
+    const { data: firstEver, error: firstErr } = await sb
+      .from("founders")
+      .select("id")
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+
+    if (!firstErr && firstEver?.id) {
+      firstFounderId = firstEver.id;
+    }
+
+    // 2) Load founders list (include id so we can compare)
     const { data, error } = await sb
       .from("founders")
-      .select("name, created_at")
+      .select("id, name, created_at")
       .order("created_at", { ascending: false })
       .limit(500);
 
