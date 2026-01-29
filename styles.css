@@ -630,25 +630,41 @@ summary{ cursor:pointer; font-weight:800; }
   flex-wrap: wrap;
 }
 
+/* Founder count card – make it pop */
 .fwCountCard{
-  display:flex; align-items:center; gap: 10px;
-  padding: 10px 12px;
+  position: relative;
+  padding: 14px 18px;
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.02);
+  background:
+    linear-gradient(135deg,
+      rgba(124,92,255,.25),
+      rgba(29,211,176,.22)
+    );
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.15);
+  min-width: 120px;
+  text-align: center;
 }
+
 .fwCountLabel{
-  color: rgba(233,233,239,.68);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .25px;
+  font-size: 11px;
+  letter-spacing: .12em;
   text-transform: uppercase;
+  color: rgba(233,233,239,.7);
 }
+
 .fwCountNum{
-  font-size: 22px;
-  font-weight: 950;
-  letter-spacing: .2px;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+  margin-top: 6px;
+  background: linear-gradient(135deg,#fff,#c9c3ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
 
 .fwPanelTop{
   display:flex; align-items:flex-start; justify-content:space-between;
