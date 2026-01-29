@@ -980,3 +980,138 @@ summary{ cursor:pointer; font-weight:800; }
     display: block;
   }
 }
+
+/* ============ Minimal Banner (no SVG) ============ */
+.fwBanner{
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.02);
+  padding: 18px 18px;
+  min-height: 92px;
+}
+
+.fwBanner::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(600px 200px at 15% 40%, rgba(124,92,255,.18), transparent 60%),
+    radial-gradient(520px 220px at 85% 35%, rgba(29,211,176,.14), transparent 60%);
+  filter: blur(6px);
+  opacity: .9;
+  pointer-events:none;
+}
+
+.fwBanner::after{
+  content:"";
+  position:absolute;
+  left: 18px; right: 18px; bottom: 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  opacity: .55;
+  pointer-events:none;
+}
+
+.fwBannerText{
+  position: relative;
+  z-index: 1;
+}
+
+.fwBannerKicker{
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(233,233,239,.62);
+  font-weight: 800;
+}
+
+.fwBannerBig{
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 900;
+  color: rgba(233,233,239,.92);
+}
+
+.fwBannerMarks{
+  position:absolute;
+  right: 16px;
+  top: 16px;
+  display:flex;
+  gap: 8px;
+  z-index: 1;
+}
+
+.fwMark{
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.fwMark:first-child{
+  background: rgba(124,92,255,.20);
+  border-color: rgba(124,92,255,.30);
+}
+.fwMark:last-child{
+  background: rgba(29,211,176,.18);
+  border-color: rgba(29,211,176,.28);
+}
+
+/* ============ Founder list glow / badge ============ */
+.fwItem{
+  position: relative; /* needed for badge positioning */
+}
+
+.fwItemTop10{
+  border-color: rgba(255,255,255,.16);
+  background:
+    linear-gradient(135deg, rgba(124,92,255,.08), rgba(29,211,176,.06)),
+    rgba(255,255,255,.02);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25),
+    0 0 0 1px rgba(255,255,255,.04) inset;
+}
+
+.fwItemTop10::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(124,92,255,.20), rgba(29,211,176,.16));
+  opacity: .18; /* subtle */
+  filter: blur(10px);
+  pointer-events:none;
+  z-index: 0;
+}
+
+.fwItemName, .fwItemMeta{
+  position: relative;
+  z-index: 1;
+}
+
+/* 1st Founder badge */
+.fwBadge{
+  position:absolute;
+  right: 12px;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .04em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+  color: rgba(233,233,239,.9);
+  z-index: 2;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+/* a bit extra polish for badge gradient, still calm */
+.fwBadge{
+  background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(29,211,176,.18));
+  border-color: rgba(255,255,255,.16);
+}
