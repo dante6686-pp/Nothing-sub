@@ -81,11 +81,12 @@
       paypal_ref: subId || tx || null
     };
 
-    const { error } = await sb.from("founders").insert(payload);
+    const { data, error } = await sb.from("founders").insert(payload);
 
     if (error) {
       console.error(error);
-      founderStatus.textContent = "Couldn’t save. Try a different name (or refresh and try again).";
+      founderStatus.textContent =
+        "Save failed: " + (error.message || "Unknown error");
       saveBtn.disabled = false;
       return;
     }
