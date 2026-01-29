@@ -89,7 +89,8 @@
         },
 
         onApprove: function (data) {
-          setStatus("Subscribed. Nothing, but make it premium.");
+  window.location.href =
+    "/thank-you.html?plan=premium&sub=" + data.subscriptionID;
         },
 
         onCancel: function () {
