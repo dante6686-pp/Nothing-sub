@@ -100,7 +100,8 @@
         },
 
         onApprove: function (data) {
-          setStatus("Subscribed. Welcome to nothing.");
+  window.location.href =
+    "/thank-you.html?plan=basic&sub=" + data.subscriptionID;
         },
 
         onCancel: function () {
