@@ -74,5 +74,21 @@
 
   <!-- Page logic -->
   <script src="./thank-you.js"></script>
+
+  <script>
+  if (window.supabaseClient) {
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      "<div style='position:fixed;bottom:10px;left:10px;font-size:12px;color:#0f0;'>Supabase connected</div>"
+    );
+  } else {
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      "<div style='position:fixed;bottom:10px;left:10px;font-size:12px;color:#f55;'>Supabase NOT connected</div>"
+    );
+  }
+  </script>
+
+  
 </body>
 </html>
