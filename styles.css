@@ -1235,7 +1235,7 @@ body{
 .mascot-ambient{
   position: absolute;
   bottom: -80px;
-  right: 250px;
+  right: -5px;
 
   width: 420px;
   max-width: 70vw;
