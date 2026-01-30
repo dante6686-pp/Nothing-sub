@@ -1280,7 +1280,7 @@ body{
 .fwMascotAmbient{
   position: absolute;
   top: -20px;
-  right: -140px;
+  right: -5px;
 
   width: 360px;
   max-width: 60vw;
