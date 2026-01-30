@@ -48,6 +48,30 @@
             No pressure. No notifications. No content.
           </p>
 
+          <!-- Nothing delivery (Basic/Premium only) -->
+<div id="emailBlock" style="display:none; margin-top:14px;">
+  <div class="hint" style="margin-bottom:8px;">
+    Want your monthly nothing? Drop an email. We will deliver nothing regularly.
+  </div>
+
+  <div class="row" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <input
+      id="subEmail"
+      class="input"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      placeholder="your@email.com"
+      style="flex:1; min-width:220px;"
+    />
+    <button id="saveEmailBtn" class="btn primary" type="button">
+      Get monthly nothing
+    </button>
+  </div>
+
+  <div id="emailStatus" class="muted" style="margin-top:8px;"></div>
+</div>
+
           <div class="ctaRow">
             <!-- Replace # with your payment link (Stripe/PayPal) -->
             <a class="btn primary" href="#pricing">I want Nothing</a>
