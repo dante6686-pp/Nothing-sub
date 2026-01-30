@@ -707,33 +707,6 @@ summary{ cursor:pointer; font-weight:800; }
 
 .fwLeft{ display:flex; gap: 12px; align-items:center; min-width:0; }
 
-.fwBadge{
-  position: absolute;
-  top: 10px;
-  right: -20px;
-
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 999px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: .3px;
-
-  background: linear-gradient(
-    135deg,
-    rgba(124,92,255,.75),
-    rgba(29,211,176,.65)
-  );
-  color: #0b0c10;
-
-  box-shadow: 0 8px 30px rgba(0,0,0,.35);
-}
-
 .fwName{
   font-weight: 900;
   color: rgba(233,233,239,.92);
@@ -1147,3 +1120,99 @@ summary{ cursor:pointer; font-weight:800; }
   flex: 0 0 auto;
 }
 
+/* ===== Founder Wall list (force visible) ===== */
+.fwList{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.fwItem{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+
+  padding: 14px 16px;
+  border-radius: 16px;
+
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+
+  /* jeśli coś Ci wcześniej "ucinało" */
+  overflow: visible;
+}
+
+.fwLeft{
+  display:flex;
+  align-items:center;
+  min-width:0;
+}
+
+.fwRight{
+  flex: 0 0 auto;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+
+.fwItemNameWrap{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  min-width:0;
+}
+
+.fwItemName{
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fwItemMeta{
+  color: rgba(233,233,239,.70);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ===== 1st EVER badge (inline, right after name) ===== */
+.fwBadgeInline{
+  display:inline-flex;
+  align-items:center;
+  gap: 6px;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .02em;
+
+  padding: 5px 10px;
+  border-radius: 999px;
+
+  color: rgba(233,233,239,.92);
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(29,211,176,.18));
+
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+}
+
+/* ===== subtle glow for TOP 10 ===== */
+.fwItemTop10{
+  border-color: rgba(124,92,255,.22);
+  background:
+    radial-gradient(900px 300px at 20% 0%, rgba(124,92,255,.10), transparent 60%),
+    radial-gradient(900px 300px at 80% 0%, rgba(29,211,176,.08), transparent 60%),
+    rgba(255,255,255,.03);
+  box-shadow: 0 16px 40px rgba(0,0,0,.25);
+}
+
+/* ===== Background cut-off fix (global) ===== */
+html, body{
+  min-height: 100%;
+}
+
+body{
+  min-height: 100vh;
+  background-attachment: fixed; /* żeby gradient nie "urwał się" na scrollu */
+}
