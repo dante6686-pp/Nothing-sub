@@ -2,16 +2,22 @@
 
 (function () {
   const params = new URLSearchParams(location.search);
-  const plan = (params.get("plan") || "").toLowerCase();
 
-  // allowed entry points
+  // NIE DAJEMY DEFAULT "basic"
+  const planRaw = params.get("plan");
+  const plan = (planRaw || "").toLowerCase();
+
   const allowedPlans = ["basic", "premium", "founder"];
 
+  // jeśli ktoś wszedł ręcznie -> wypierdala na home
   if (!allowedPlans.includes(plan)) {
-    // ktoś wszedł ręcznie -> wracamy do spokoju
     window.location.replace("./index.html");
     return;
   }
+
+  const subId = params.get("sub") || "";
+  const payer = params.get("payer") || "";
+  const tx = params.get("tx") || "";
 
   // reszta pliku leci dalej ↓↓↓
 
