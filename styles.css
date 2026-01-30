@@ -1231,3 +1231,23 @@ body{
   min-height: 100vh;
   background-attachment: fixed; /* żeby gradient nie "urwał się" na scrollu */
 }
+
+.mascot-ambient{
+  position: absolute;
+  bottom: -80px;
+  right: -120px;
+
+  width: 420px;
+  max-width: 70vw;
+
+  opacity: 0.08;               /* KLUCZ */
+  filter: 
+    blur(0.5px)
+    saturate(0.6)
+    contrast(0.9);
+
+  pointer-events: none;
+  user-select: none;
+
+  mix-blend-mode: lighten;     /* albo: screen / soft-light */
+}
