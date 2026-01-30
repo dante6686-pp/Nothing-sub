@@ -1,3 +1,4 @@
+// thank-you.js
 (function () {
   const params = new URLSearchParams(location.search);
   const plan = (params.get("plan") || "basic").toLowerCase();
@@ -14,7 +15,7 @@
   const saveBtn = document.getElementById("saveFounderBtn");
   const founderStatus = document.getElementById("founderStatus");
 
-  // copy per plan
+  // Copy per plan
   const copy = {
     basic: {
       subtitle: "$1 / month — a quiet commitment to absolutely nothing.",
@@ -27,67 +28,82 @@
     founder: {
       subtitle: "$4 one-time — you didn’t buy anything. You claimed a place on the Wall.",
       line: "Payment received. Choose a name and join the Founder Wall.",
-    }
+    },
   };
 
   const chosen = copy[plan] || copy.basic;
-  elSubtitle.textContent = chosen.subtitle;
-  elLine.textContent = chosen.line;
+  if (elSubtitle) elSubtitle.textContent = chosen.subtitle;
+  if (elLine) elLine.textContent = chosen.line;
 
-  // meta line (optional)
+  // Meta line (optional)
   const metaBits = [];
   if (subId) metaBits.push(`Reference: ${subId}`);
   if (tx) metaBits.push(`TX: ${tx}`);
   if (payer) metaBits.push(`Payer: ${payer}`);
-  elMeta.textContent = metaBits.length ? metaBits.join(" · ") : "";
+  if (elMeta) elMeta.textContent = metaBits.length ? metaBits.join(" · ") : "";
 
-  // founder-only UI
+  // Founder-only UI
   const isFounder = plan === "founder";
-  if (isFounder) founderBlock.style.display = "block";
+  if (isFounder && founderBlock) founderBlock.style.display = "block";
 
-  // If no supabase client configured, don't blow up
   function getSb() {
-    // support either `window.supabaseClient` or `window.sb`
     return window.supabaseClient || window.sb || null;
+  }
+
+  function normalizeName(input) {
+    // trim + collapse spaces, then clamp length
+    const cleaned = String(input || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    const key = cleaned.toLowerCase(); // used for uniqueness
+    return { cleaned, key };
   }
 
   async function saveFounder() {
     const sb = getSb();
     if (!sb) {
-      founderStatus.textContent = "Supabase not configured on this page yet.";
+      if (founderStatus) founderStatus.textContent = "Supabase not configured on this page yet.";
       return;
     }
 
-    const raw = (founderName.value || "").trim();
+    const raw = founderName?.value || "";
+    const { cleaned, key } = normalizeName(raw);
 
-    // small validation
-    if (raw.length < 2) {
-      founderStatus.textContent = "Name is too short. Give it at least 2 characters.";
-      return;
-    }
-    if (raw.length > 32) {
-      founderStatus.textContent = "Name is too long. Max 32 characters.";
+    if (cleaned.length < 2) {
+      if (founderStatus) founderStatus.textContent = "Name is too short. Give it at least 2 characters.";
       return;
     }
 
-    saveBtn.disabled = true;
-    founderStatus.textContent = "Adding you to the Wall…";
+    if (saveBtn) saveBtn.disabled = true;
+    if (founderStatus) founderStatus.textContent = "Adding you to the Wall…";
 
-    // IMPORTANT: change table name here if yours is different
-    const payload = { name: raw };
+    // Requires DB changes:
+    // - founders.name_key (text)
+    // - unique index on founders.name_key
+    const payload = {
+      name: cleaned,
+      name_key: key,
+    };
 
-    const { data, error } = await sb.from("founders").insert(payload);
+    const { error } = await sb.from("founders").insert(payload);
 
     if (error) {
       console.error(error);
-      founderStatus.textContent =
-        "Save failed: " + (error.message || "Unknown error");
-      saveBtn.disabled = false;
+
+      const msg = (error.message || "").toLowerCase();
+      if (msg.includes("duplicate") || msg.includes("unique")) {
+        if (founderStatus) founderStatus.textContent = "That name is already on the wall. Try a different one.";
+      } else {
+        if (founderStatus) founderStatus.textContent = "Save failed: " + (error.message || "Unknown error");
+      }
+
+      if (saveBtn) saveBtn.disabled = false;
       return;
     }
 
-    founderStatus.textContent = "Done. Welcome to the Wall of Nothing.";
-    saveBtn.textContent = "Added ✓";
+    if (founderStatus) founderStatus.textContent = "Done. Welcome to the Wall of Nothing.";
+    if (saveBtn) saveBtn.textContent = "Added ✓";
+
+    // Optional: jump to wall after a moment
+    // setTimeout(() => (window.location.href = "./founders.html"), 700);
   }
 
   if (isFounder && saveBtn) {
