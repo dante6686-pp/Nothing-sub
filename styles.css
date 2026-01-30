@@ -693,21 +693,47 @@ summary{ cursor:pointer; font-weight:800; }
 @media (max-width:900px){ .fwList{ grid-template-columns: 1fr; } }
 
 .fwItem{
-  display:flex; align-items:center; justify-content:space-between; gap: 10px;
-  padding: 14px;
+  position: relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+
+  padding: 14px 64px 14px 14px; /* miejsce na badge */
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(255,255,255,.02);
 }
+
 .fwLeft{ display:flex; gap: 12px; align-items:center; min-width:0; }
+
 .fwBadge{
-  width: 36px; height: 36px; border-radius: 12px;
-  display:flex; align-items:center; justify-content:center;
-  font-weight: 950;
-  background: linear-gradient(135deg, rgba(124,92,255,.65), rgba(29,211,176,.55));
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .3px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(124,92,255,.75),
+    rgba(29,211,176,.65)
+  );
   color: #0b0c10;
-  flex: 0 0 auto;
+
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
 }
+
 .fwName{
   font-weight: 900;
   color: rgba(233,233,239,.92);
