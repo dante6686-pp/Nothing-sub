@@ -1251,3 +1251,22 @@ body{
 
   mix-blend-mode: lighten;     /* albo: screen / soft-light */
 }
+
+.tyMascotWrap{
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.tyMascot{
+  width: 160px;
+  max-width: 60vw;
+
+  opacity: 0.18;
+  filter:
+    saturate(0.7)
+    contrast(0.95);
+
+  pointer-events: none;
+  user-select: none;
+}
