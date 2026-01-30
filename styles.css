@@ -43,13 +43,28 @@ header{
   gap:12px;
 }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:800;
-  letter-spacing:.2px;
+.logoLink{
+  text-decoration: none;
+  color: inherit;
+  display: inline-flex;
 }
+
+.logoLink:hover{
+  text-decoration: none;
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logoLink:hover .dot{
+  box-shadow: 0 0 0 8px rgba(124,92,255,.18);
+}
+
+
 
 .dot{
   width:14px;
