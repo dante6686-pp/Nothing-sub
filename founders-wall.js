@@ -12,7 +12,13 @@
 
   let all = [];
   let sortMode = (sortBtn?.dataset.sort || "newest"); // newest | oldest
-  let firstFounderId = null; // FIRST EVER founder (oldest created_at)
+
+  function fmtDate(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
+  }
 
   function escapeHtml(s) {
     return String(s)
@@ -23,88 +29,87 @@
       .replaceAll("'", "&#039;");
   }
 
-  function fmtDate(iso) {
-    if (!iso) return "";
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "2-digit",
-    });
-  }
-
   function render() {
     const q = (searchEl?.value || "").trim().toLowerCase();
 
     let items = all.slice();
-    if (q) items = items.filter((x) => (x.name || "").toLowerCase().includes(q));
+    if (q) items = items.filter(x => (x.name || "").toLowerCase().includes(q));
 
-    // sort view (does NOT affect "first ever" badge)
+    // sort
     items.sort((a, b) => {
       const da = new Date(a.created_at).getTime() || 0;
       const db = new Date(b.created_at).getTime() || 0;
       return sortMode === "oldest" ? da - db : db - da;
     });
 
+    // total count (all, not filtered)
     countEl.textContent = String(all.length);
 
     listEl.innerHTML = "";
+
     if (!items.length) {
-      if (emptyEl) emptyEl.style.display = "block";
+      emptyEl && (emptyEl.style.display = "block");
       return;
     }
-    if (emptyEl) emptyEl.style.display = "none";
+    emptyEl && (emptyEl.style.display = "none");
 
     items.forEach((row, idx) => {
       const item = document.createElement("div");
 
-      // subtle glow for first 10 items in the CURRENT view
       const isTop10 = idx < 10;
-
-      // badge for the FIRST EVER founder (oldest created_at), regardless of view sorting/search
-      const isFirstEver = firstFounderId && row.id === firstFounderId;
+      const isFirstEver = idx === items.length - 1; // <-- UWAGA: to zależy od sortu.
+      // Lepiej: "1st ever" = najstarszy rekord w OGÓLE. To nie zależy od sortu.
+      // Zrobimy to poprawnie niżej.
 
       item.className = "fwItem" + (isTop10 ? " fwItemTop10" : "");
 
       item.innerHTML = `
-  <div class="fwLeft">
-    <div class="fwItemName">
-      ${escapeHtml(row.name || "")}
-      ${isFirst ? `<span class="fwBadgeInline">1st Founder</span>` : ``}
-    </div>
-  </div>
-  <div class="fwItemMeta">${fmtDate(row.created_at)}</div>
-`;
+        <div class="fwLeft">
+          <div class="fwItemNameWrap">
+            <div class="fwItemName">${escapeHtml(row.name || "")}</div>
+            <span class="fwBadgeInline" style="display:none;">1st ever</span>
+          </div>
+        </div>
+        <div class="fwRight">
+          <div class="fwItemMeta">${fmtDate(row.created_at)}</div>
+        </div>
+      `;
 
       listEl.appendChild(item);
     });
+
+    // ustaw "1st ever" dla NAJSTARSZEGO z ALL (niezależnie od sortu)
+    const oldest = all.reduce((best, cur) => {
+      const b = new Date(best.created_at).getTime() || Infinity;
+      const c = new Date(cur.created_at).getTime() || Infinity;
+      return c < b ? cur : best;
+    }, all[0]);
+
+    if (oldest && oldest.name) {
+      // znajdź element po nazwie (pierwsze dopasowanie)
+      const nodes = listEl.querySelectorAll(".fwItem");
+      nodes.forEach((node) => {
+        const nameEl = node.querySelector(".fwItemName");
+        const badgeEl = node.querySelector(".fwBadgeInline");
+        if (!nameEl || !badgeEl) return;
+        if ((nameEl.textContent || "").trim() === (oldest.name || "").trim()) {
+          badgeEl.style.display = "inline-flex";
+        }
+      });
+    }
   }
 
   async function load() {
-    // 1) Get FIRST EVER founder id (oldest)
-    const { data: firstEver, error: firstErr } = await sb
-      .from("founders")
-      .select("id")
-      .order("created_at", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-
-    if (!firstErr && firstEver?.id) {
-      firstFounderId = firstEver.id;
-    }
-
-    // 2) Load founders list (include id so we can compare)
     const { data, error } = await sb
       .from("founders")
-      .select("id, name, created_at")
+      .select("name, created_at")
       .order("created_at", { ascending: false })
       .limit(500);
 
     if (error) {
       console.error(error);
       countEl.textContent = "0";
-      if (emptyEl) emptyEl.style.display = "block";
+      emptyEl && (emptyEl.style.display = "block");
       return;
     }
 
