@@ -1114,30 +1114,36 @@ summary{ cursor:pointer; font-weight:800; }
   z-index: 0;
 }
 
-.fwItemName, .fwItemMeta{
-  position: relative;
-  z-index: 1;
+/* name + badge in one line */
+.fwItemName{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
-/* 1st Founder badge */
-.fwBadge{
-  position:absolute;
-  right: 12px;
-  top: 10px;
+/* inline 1st Founder badge */
+.fwBadgeInline{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+
   font-size: 11px;
   font-weight: 900;
   letter-spacing: .04em;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.06);
-  color: rgba(233,233,239,.9);
-  z-index: 2;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+
+  background: linear-gradient(
+    135deg,
+    rgba(124,92,255,.35),
+    rgba(29,211,176,.30)
+  );
+  color: #0b0c10;
+
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
-/* a bit extra polish for badge gradient, still calm */
-.fwBadge{
-  background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(29,211,176,.18));
-  border-color: rgba(255,255,255,.16);
-}
