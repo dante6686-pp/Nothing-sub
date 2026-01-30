@@ -68,10 +68,14 @@
       item.className = "fwItem" + (isTop10 ? " fwItemTop10" : "");
 
       item.innerHTML = `
-        ${isFirstEver ? `<div class="fwBadge">1st Founder</div>` : ``}
-        <div class="fwItemName">${escapeHtml(row.name || "")}</div>
-        <div class="fwItemMeta">${fmtDate(row.created_at)}</div>
-      `;
+  <div class="fwLeft">
+    <div class="fwItemName">
+      ${escapeHtml(row.name || "")}
+      ${isFirst ? `<span class="fwBadgeInline">1st Founder</span>` : ``}
+    </div>
+  </div>
+  <div class="fwItemMeta">${fmtDate(row.created_at)}</div>
+`;
 
       listEl.appendChild(item);
     });
