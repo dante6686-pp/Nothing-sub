@@ -2,11 +2,12 @@
 (function () {
   const params = new URLSearchParams(location.search);
 
-  // NO DEFAULT. If missing -> go home.
-  const plan = String(params.get("plan") || "").toLowerCase();
-  const allowedPlans = new Set(["basic", "premium", "founder"]);
+  // no default plan: direct entry -> home
+  const planRaw = params.get("plan");
+  const plan = (planRaw || "").toLowerCase();
+  const allowedPlans = ["basic", "premium", "founder"];
 
-  if (!allowedPlans.has(plan)) {
+  if (!allowedPlans.includes(plan)) {
     window.location.replace("./index.html");
     return;
   }
@@ -19,11 +20,19 @@
   const elLine = document.getElementById("tyLine");
   const elMeta = document.getElementById("tyMeta");
 
+  // founder
   const founderBlock = document.getElementById("founderBlock");
   const founderName = document.getElementById("founderName");
-  const saveBtn = document.getElementById("saveFounderBtn");
+  const saveFounderBtn = document.getElementById("saveFounderBtn");
   const founderStatus = document.getElementById("founderStatus");
 
+  // email (basic/premium)
+  const emailBlock = document.getElementById("emailBlock");
+  const subEmail = document.getElementById("subEmail");
+  const saveEmailBtn = document.getElementById("saveEmailBtn");
+  const emailStatus = document.getElementById("emailStatus");
+
+  // copy per plan
   const copy = {
     basic: {
       subtitle: "$1 / month — a quiet commitment to absolutely nothing.",
@@ -43,24 +52,18 @@
   if (elSubtitle) elSubtitle.textContent = chosen.subtitle;
   if (elLine) elLine.textContent = chosen.line;
 
-  // meta (optional)
+  // meta line
   const metaBits = [];
   if (subId) metaBits.push(`Reference: ${subId}`);
   if (tx) metaBits.push(`TX: ${tx}`);
   if (payer) metaBits.push(`Payer: ${payer}`);
   if (elMeta) elMeta.textContent = metaBits.length ? metaBits.join(" · ") : "";
 
-  // founder UI
-  const isFounder = plan === "founder";
-  if (founderBlock) founderBlock.style.display = isFounder ? "block" : "none";
-
-  // If no supabase client configured, don't blow up
   function getSb() {
-    // IMPORTANT: supabase-config.js must set ONE of these:
-    // window.sb = supabaseClient;  OR  window.supabaseClient = supabaseClient;
     return window.supabaseClient || window.sb || null;
   }
 
+  // ---------- Founder saving ----------
   function normalizeName(input) {
     const cleaned = String(input || "").trim().replace(/\s+/g, " ").slice(0, 32);
     const key = cleaned.toLowerCase();
@@ -82,11 +85,10 @@
       return;
     }
 
-    if (saveBtn) saveBtn.disabled = true;
+    if (saveFounderBtn) saveFounderBtn.disabled = true;
     if (founderStatus) founderStatus.textContent = "Adding you to the Wall…";
 
     const payload = { name: cleaned, name_key: key };
-
     const { error } = await sb.from("founders").insert(payload);
 
     if (error) {
@@ -97,18 +99,85 @@
       } else {
         if (founderStatus) founderStatus.textContent = "Save failed: " + (error.message || "Unknown error");
       }
-      if (saveBtn) saveBtn.disabled = false;
+      if (saveFounderBtn) saveFounderBtn.disabled = false;
       return;
     }
 
     if (founderStatus) founderStatus.textContent = "Done. Welcome to the Wall of Nothing.";
-    if (saveBtn) saveBtn.textContent = "Added ✓";
+    if (saveFounderBtn) saveFounderBtn.textContent = "Added ✓";
   }
 
-  if (isFounder && saveBtn) {
-    saveBtn.addEventListener("click", saveFounder);
+  // ---------- Subscriber email saving ----------
+  function normalizeEmail(input) {
+    const cleaned = String(input || "").trim().toLowerCase().slice(0, 200);
+    return { cleaned, key: cleaned };
+  }
+
+  function looksLikeEmail(e) {
+    // quick & dirty, enough for now
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  }
+
+  async function saveSubscriberEmail() {
+    const sb = getSb();
+    if (!sb) {
+      if (emailStatus) emailStatus.textContent = "Supabase not configured.";
+      return;
+    }
+
+    const { cleaned, key } = normalizeEmail(subEmail?.value || "");
+
+    if (!looksLikeEmail(cleaned)) {
+      if (emailStatus) emailStatus.textContent = "Enter a valid email.";
+      return;
+    }
+
+    if (saveEmailBtn) saveEmailBtn.disabled = true;
+    if (emailStatus) emailStatus.textContent = "Subscribing you to nothing…";
+
+    const payload = {
+      email: cleaned,
+      email_key: key,
+      plan: plan,        // "basic" or "premium"
+      status: "active",
+    };
+
+    const { error } = await sb.from("subscribers").insert(payload);
+
+    if (error) {
+      console.error(error);
+      const msg = (error.message || "").toLowerCase();
+      if (msg.includes("duplicate") || msg.includes("unique")) {
+        if (emailStatus) emailStatus.textContent = "This email is already subscribed to nothing.";
+      } else {
+        if (emailStatus) emailStatus.textContent = "Save failed: " + (error.message || "Unknown error");
+      }
+      if (saveEmailBtn) saveEmailBtn.disabled = false;
+      return;
+    }
+
+    if (emailStatus) emailStatus.textContent = "Done. Nothing will arrive monthly.";
+    if (saveEmailBtn) saveEmailBtn.textContent = "Saved ✓";
+  }
+
+  // ---------- UI rules ----------
+  const isFounder = plan === "founder";
+  const isSub = plan === "basic" || plan === "premium";
+
+  if (founderBlock) founderBlock.style.display = isFounder ? "block" : "none";
+  if (emailBlock) emailBlock.style.display = isSub ? "block" : "none";
+
+  if (isFounder && saveFounderBtn) {
+    saveFounderBtn.addEventListener("click", saveFounder);
     founderName?.addEventListener("keydown", (e) => {
       if (e.key === "Enter") saveFounder();
+    });
+  }
+
+  if (isSub && saveEmailBtn) {
+    saveEmailBtn.addEventListener("click", saveSubscriberEmail);
+    subEmail?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") saveSubscriberEmail();
     });
   }
 })();
