@@ -1303,7 +1303,7 @@ body{
 @media (max-width: 640px){
   .fwMascotAmbient{
     width: 260px;
-    right: -5px;
+    right: -10px;
     top: -10px;
     opacity: 0.05;
   }
