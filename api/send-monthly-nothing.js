@@ -1,16 +1,44 @@
+// /api/send-monthly-nothing.js
+
 export default async function handler(req, res) {
+  // 0) allow only GET/POST
+  if (req.method !== "GET" && req.method !== "POST") {
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
+  }
+
+  // 1) SECRET GUARD (query)
+  const secret = String(req.query?.secret || "");
+  const expected = process.env.CRON_SECRET || "";
+
+  if (!expected) {
+    // misconfig - you forgot env var
+    return res.status(500).json({ ok: false, error: "Missing CRON_SECRET env var" });
+  }
+  if (secret !== expected) {
+    return res.status(401).json({ ok: false, error: "Unauthorized" });
+  }
+
+  // 2) env
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!RESEND_API_KEY) return res.status(500).json({ ok: false, error: "Missing RESEND_API_KEY" });
+  if (!SUPABASE_URL) return res.status(500).json({ ok: false, error: "Missing SUPABASE_URL" });
+  if (!SUPABASE_SERVICE_ROLE_KEY) return res.status(500).json({ ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
+
+  // 3) options
+  const dryRun = String(req.query?.dry || "") === "1";   // ?dry=1 -> no sending
+  const limit = clampInt(req.query?.limit, 1, 500, 200); // ?limit=50 (default 200)
+
   try {
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!RESEND_API_KEY) return res.status(500).json({ ok: false, error: "Missing RESEND_API_KEY" });
-    if (!SUPABASE_URL) return res.status(500).json({ ok: false, error: "Missing SUPABASE_URL" });
-    if (!SUPABASE_SERVICE_ROLE_KEY) return res.status(500).json({ ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
-
-    // 1) Pobierz aktywnych subskrybentów z Supabase REST
+    // 4) pull active subscribers (Supabase REST)
+    // IMPORTANT: this requires your table 'subscribers' to be readable with service role (it is)
     const sbUrl =
-      `${SUPABASE_URL}/rest/v1/subscribers?select=email,plan,status&status=eq.active`;
+      `${SUPABASE_URL}/rest/v1/subscribers` +
+      `?select=email,plan,status` +
+      `&status=eq.active` +
+      `&limit=${limit}`;
 
     const sbResp = await fetch(sbUrl, {
       headers: {
@@ -19,29 +47,63 @@ export default async function handler(req, res) {
       },
     });
 
-    const subscribers = await sbResp.json();
-    if (!sbResp.ok) {
-      return res.status(500).json({ ok: false, error: "Supabase fetch failed", details: subscribers });
+    const sbText = await sbResp.text();
+    let subscribers;
+    try {
+      subscribers = sbText ? JSON.parse(sbText) : [];
+    } catch {
+      subscribers = null;
     }
 
-    // 2) Wyślij "nic" do każdego
+    if (!sbResp.ok) {
+      return res.status(500).json({
+        ok: false,
+        error: "Supabase fetch failed",
+        status: sbResp.status,
+        details: subscribers ?? sbText,
+      });
+    }
+
+    if (!Array.isArray(subscribers)) {
+      return res.status(500).json({
+        ok: false,
+        error: "Supabase returned non-array",
+        details: subscribers ?? sbText,
+      });
+    }
+
+    // 5) send loop
     const results = [];
     for (const s of subscribers) {
-      const to = s.email;
-      const plan = s.plan || "basic";
+      const to = String(s?.email || "").trim();
+      const plan = String(s?.plan || "basic").toLowerCase();
+
+      if (!to || !to.includes("@")) {
+        results.push({ to, ok: false, status: 400, id: null, error: "Invalid email" });
+        continue;
+      }
 
       const subject =
-        plan === "premium" ? "Your Premium Nothing has arrived." : "Your monthly nothing is here.";
+        plan === "premium"
+          ? "Your Premium Nothing has arrived."
+          : "Your monthly nothing is here.";
+
+      const safePlan = escapeHtml(plan);
 
       const html = `
         <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5">
           <h2 style="margin:0 0 12px">Nothing Update</h2>
           <p style="margin:0 0 12px">This is your scheduled delivery of <b>nothing</b>.</p>
-          <p style="margin:0 0 12px;opacity:.75">Plan: ${escapeHtml(plan)}</p>
-          <hr style="border:none;border-top:1px solid #eee;margin:16px 0"/>
+          <p style="margin:0 0 12px;opacity:.75">Plan: ${safePlan}</p>
+          <hr style="border:none;border-top:1px solid rgba(0,0,0,.08);margin:16px 0"/>
           <p style="margin:0;opacity:.7">Unsubscribe? You can cancel in PayPal.</p>
         </div>
       `;
+
+      if (dryRun) {
+        results.push({ to, ok: true, status: 200, id: "dry-run", error: null });
+        continue;
+      }
 
       const sendResp = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -50,7 +112,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // na trialu Resend i tak musisz używać ich domeny / zweryfikowanej domeny
+          // trial: only to your Resend account email unless domain verified
           from: "onboarding@resend.dev",
           to,
           subject,
@@ -58,7 +120,14 @@ export default async function handler(req, res) {
         }),
       });
 
-      const sendJson = await sendResp.json();
+      const sendText = await sendResp.text();
+      let sendJson;
+      try {
+        sendJson = sendText ? JSON.parse(sendText) : {};
+      } catch {
+        sendJson = { raw: sendText };
+      }
+
       results.push({
         to,
         ok: sendResp.ok,
@@ -73,16 +142,18 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
+      dryRun,
       total: results.length,
       sent,
       failed,
       results,
     });
-  } catch (e) {
+  } թվական catch (e) {
     return res.status(500).json({ ok: false, error: String(e?.message || e) });
   }
 }
 
+// helpers
 function escapeHtml(s) {
   return String(s || "")
     .replaceAll("&", "&amp;")
@@ -90,4 +161,10 @@ function escapeHtml(s) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function clampInt(v, min, max, fallback) {
+  const n = Number.parseInt(String(v ?? ""), 10);
+  if (Number.isNaN(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
 }
