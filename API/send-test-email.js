@@ -1,23 +1,24 @@
-import { Resend } from "resend";
+// /api/send-test-email.js
+const { Resend } = require("resend");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   try {
-    const data = await resend.emails.send({
-      from: "Nothing <onboarding@resend.dev>",
-      to: ["dante6686@msn.com"], // <-- TU WPISZ SWOJ EMAIL
-      subject: "You received nothing.",
-      html: `
-        <h2>Nothing delivered.</h2>
-        <p>This email confirms that nothing has happened.</p>
-        <p>Everything is proceeding as expected.</p>
-        <p>— Subscription to Nothing</p>
-      `,
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const to = (req.query.to || "").trim();
+    if (!to) {
+      return res.status(400).json({ ok: false, error: "Missing ?to=you@email.com" });
+    }
+
+    const result = await resend.emails.send({
+      from: "Subscription to Nothing <onboarding@resend.dev>", // na start OK
+      to,
+      subject: "Your first nothing.",
+      html: `<p>Nothing happened.</p><p>That’s the point.</p>`,
     });
 
-    res.status(200).json({ success: true, data });
-  } catch (error) {
-    res.status(500).json({ success: false, error });
+    return res.status(200).json({ ok: true, result });
+  } catch (e) {
+    return res.status(500).json({ ok: false, error: e.message || String(e) });
   }
-}
+};
