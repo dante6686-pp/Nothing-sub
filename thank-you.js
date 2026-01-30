@@ -1,4 +1,21 @@
 // thank-you.js
+
+(function () {
+  const params = new URLSearchParams(location.search);
+  const plan = (params.get("plan") || "").toLowerCase();
+
+  // allowed entry points
+  const allowedPlans = ["basic", "premium", "founder"];
+
+  if (!allowedPlans.includes(plan)) {
+    // ktoś wszedł ręcznie -> wracamy do spokoju
+    window.location.replace("./index.html");
+    return;
+  }
+
+  // reszta pliku leci dalej ↓↓↓
+
+
 (function () {
   const params = new URLSearchParams(location.search);
   const plan = (params.get("plan") || "basic").toLowerCase();
