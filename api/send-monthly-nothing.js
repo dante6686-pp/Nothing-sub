@@ -113,7 +113,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           // trial: only to your Resend account email unless domain verified
-          from: "onboarding@resend.dev",
+          from: "Subscription to Nothing <hello@getnothing.win",
           to,
           subject,
           html,
