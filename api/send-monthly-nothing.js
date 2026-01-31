@@ -6,12 +6,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: "Method not allowed" });
   }
 
-  // 1) SECRET GUARD (query)
+  // 1) SECRET GUARD (query) => /api/send-monthly-nothing?secret=XXXX
   const secret = String(req.query?.secret || "");
-  const expected = process.env.CRON_SECRET || "";
+  const expected = String(process.env.CRON_SECRET || "");
 
   if (!expected) {
-    // misconfig - you forgot env var
     return res.status(500).json({ ok: false, error: "Missing CRON_SECRET env var" });
   }
   if (secret !== expected) {
@@ -31,12 +30,16 @@ export default async function handler(req, res) {
   const dryRun = String(req.query?.dry || "") === "1";   // ?dry=1 -> no sending
   const limit = clampInt(req.query?.limit, 1, 500, 200); // ?limit=50 (default 200)
 
+  // 4) base url for links (unsubscribe)
+  const proto = String(req.headers["x-forwarded-proto"] || "https");
+  const host = String(req.headers["x-forwarded-host"] || req.headers.host || "getnothing.win");
+  const baseUrl = `${proto}://${host}`;
+
   try {
-    // 4) pull active subscribers (Supabase REST)
-    // IMPORTANT: this requires your table 'subscribers' to be readable with service role (it is)
+    // 5) pull active subscribers (Supabase REST)
     const sbUrl =
       `${SUPABASE_URL}/rest/v1/subscribers` +
-      `?select=email,plan,status` +
+      `?select=email,plan,status,unsub_token` +
       `&status=eq.active` +
       `&limit=${limit}`;
 
@@ -72,7 +75,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 5) send loop
+    // 6) send loop
     const results = [];
     for (const s of subscribers) {
       const to = String(s?.email || "").trim();
@@ -86,9 +89,21 @@ export default async function handler(req, res) {
       const subject =
         plan === "premium"
           ? "Your Premium Nothing has arrived."
+          : plan === "founder"
+          ? "Founder Nothing (still nothing)."
           : "Your monthly nothing is here.";
 
       const safePlan = escapeHtml(plan);
+
+      // unsubscribe link (1-click) if you have unsub_token
+      const token = String(s?.unsub_token || "");
+      const unsubUrl = token
+        ? `${baseUrl}/api/unsubscribe?t=${encodeURIComponent(token)}`
+        : null;
+
+      const unsubLine = unsubUrl
+        ? `<p style="margin:0;opacity:.7">Unsubscribe: <a href="${unsubUrl}" style="color:inherit">one click</a></p>`
+        : `<p style="margin:0;opacity:.7">Unsubscribe? You can cancel in PayPal.</p>`;
 
       const html = `
         <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5">
@@ -96,7 +111,7 @@ export default async function handler(req, res) {
           <p style="margin:0 0 12px">This is your scheduled delivery of <b>nothing</b>.</p>
           <p style="margin:0 0 12px;opacity:.75">Plan: ${safePlan}</p>
           <hr style="border:none;border-top:1px solid rgba(0,0,0,.08);margin:16px 0"/>
-          <p style="margin:0;opacity:.7">Unsubscribe? You can cancel in PayPal.</p>
+          ${unsubLine}
         </div>
       `;
 
@@ -112,8 +127,7 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          // trial: only to your Resend account email unless domain verified
-          from: "Subscription to Nothing <hello@getnothing.win",
+          from: "Subscription to Nothing <hello@getnothing.win>",
           to,
           subject,
           html,
@@ -148,7 +162,7 @@ export default async function handler(req, res) {
       failed,
       results,
     });
-  } թվական catch (e) {
+  } catch (e) {
     return res.status(500).json({ ok: false, error: String(e?.message || e) });
   }
 }
